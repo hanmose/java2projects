@@ -32,7 +32,7 @@ public class Calculator {
         one = sc.nextInt();
         System.out.println("정수2 입력: ");
         two = sc.nextInt();
-        System.out.println("연산기호 입력(e입력시 종료: ");
+        System.out.println("연산기호 입력(e입력시 종료): ");
         symbol = sc.next().charAt(0);
         if(symbol=='e'){
             System.out.println("종료");
