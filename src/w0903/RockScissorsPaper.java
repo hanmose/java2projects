@@ -6,12 +6,12 @@ import java.util.Random;
 
 public class RockScissorsPaper {
     public static void main(String[] args) {
-        String[] result = new String[1000000];
+        String[] result = new String[10000];
         String ComA, ComB;
         int aWin,bWin,noWin;
         String[] strArr = {"가위", "바위", "보"};
 
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 10000; i++) {
             Random rand = new Random();
             ComA = strArr[rand.nextInt(strArr.length)];
             ComB = strArr[rand.nextInt(strArr.length)];
