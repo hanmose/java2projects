@@ -1,6 +1,4 @@
-package w0827;
-
-import java.util.Random;
+package production.w0827;
 
 public class DDing {
     public static void main(String[] args) {

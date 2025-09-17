@@ -1,4 +1,4 @@
-package w0820;
+package production.w0820;
 
 public class Array1Test {
     public static void main(String[] args) {

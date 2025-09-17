@@ -1,4 +1,4 @@
-package w0903;
+package production.w0903;
 
 import java.util.Scanner;
 
