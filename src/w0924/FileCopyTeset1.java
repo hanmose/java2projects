@@ -2,7 +2,7 @@ package w0924;
 
 import java.io.*;
 
-public class FileCopyTeset {
+public class FileCopyTeset1 {
     public static void main(String[] args) {
         FileReader fr = null;
         BufferedReader br = null;
