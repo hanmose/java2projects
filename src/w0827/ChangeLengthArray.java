@@ -1,4 +1,4 @@
-package production.w0827;
+package w0827;
 import java.util.Arrays;
 
 public class ChangeLengthArray {

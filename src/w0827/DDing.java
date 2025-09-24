@@ -1,4 +1,4 @@
-package production.w0827;
+package w0827;
 
 public class DDing {
     public static void main(String[] args) {

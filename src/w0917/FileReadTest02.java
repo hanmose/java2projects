@@ -1,4 +1,4 @@
-package production.w0917;
+package w0917;
 import java.io.*;
 
 public class FileReadTest02 {

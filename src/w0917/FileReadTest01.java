@@ -1,4 +1,4 @@
-package production.w0917;
+package w0917;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,7 +11,7 @@ public class FileReadTest01 {
         String line = null;
         try{
 //          파일 열기
-            br = new BufferedReader(new FileReader("D:/FileTest/MyData1.txt"));
+            br = new BufferedReader(new FileReader("D:/File Test/MyData1.txt"));
             int num = 1;
             while ((line = br.readLine()) != null){
                 System.out.printf("%d : %s\n", num++, line);
