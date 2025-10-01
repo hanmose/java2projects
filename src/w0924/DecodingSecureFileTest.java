@@ -1,4 +1,4 @@
-package q0924;
+package w0924;
 
 import java.io.*;
 
