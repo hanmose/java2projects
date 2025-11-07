@@ -13,6 +13,7 @@ public class MainController {
         Connection con = JDBCConnector.getConnection();
         runMenu(con);
         try { if (con != null && !con.isClosed()) con.close(); } catch (SQLException ignored) {}
+        System.out.println("프로그램이 종료되었습니다.");
     }
 
     private static void runMenu(Connection con) {
@@ -22,12 +23,14 @@ public class MainController {
             System.out.println("1. 고객 추가");
             System.out.println("2. 고객 수정");
             System.out.println("3. 고객 삭제");
+            System.out.println("4. 종료");
             System.out.print("선택: ");
             String sel = sc.nextLine().trim();
             switch (sel) {
                 case "1" -> inputCustomerAndInsert(con);
                 case "2" -> updateCustomer(con);
                 case "3" -> deleteCustomer(con);
+                case "4" -> { return; }
                 default -> System.out.println("잘못 입력했습니다.");
             }
         }
