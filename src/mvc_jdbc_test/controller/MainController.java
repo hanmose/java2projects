@@ -12,26 +12,32 @@ public class MainController {
     public static void main(String[] args) {
         Connection con = JDBCConnector.getConnection();
         runMenu(con);
-        try { if (con != null && !con.isClosed()) con.close(); } catch (SQLException ignored) {}
-        System.out.println("프로그램이 종료되었습니다.");
+        try {
+            if (con != null && !con.isClosed()) con.close();
+        } catch (SQLException e) {
+            System.out.println("연결 종료 중 오류 발생");
+        }
     }
 
     private static void runMenu(Connection con) {
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println("\n===== 고객 관리 메뉴 =====");
+            System.out.println();
+            System.out.println("===== 고객 관리 메뉴 =====");
             System.out.println("1. 고객 추가");
             System.out.println("2. 고객 수정");
             System.out.println("3. 고객 삭제");
-            System.out.println("4. 종료");
-            System.out.print("선택: ");
+            System.out.print("메뉴 선택: ");
             String sel = sc.nextLine().trim();
-            switch (sel) {
-                case "1" -> inputCustomerAndInsert(con);
-                case "2" -> updateCustomer(con);
-                case "3" -> deleteCustomer(con);
-                case "4" -> { return; }
-                default -> System.out.println("잘못 입력했습니다.");
+
+            if (sel.equals("1")) {
+                inputCustomerAndInsert(con);
+            } else if (sel.equals("2")) {
+                updateCustomer(con);
+            } else if (sel.equals("3")) {
+                deleteCustomer(con);
+            } else {
+                System.out.println("잘못된 입력입니다.");
             }
         }
     }
@@ -40,6 +46,7 @@ public class MainController {
         InputCustomerInfoView inputView = new InputCustomerInfoView();
         Customer customer = inputView.inputCustomerInfo();
         String sql = "insert into 고객 values(?,?,?,?,?,?)";
+
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, customer.getCustomerid());
             pstmt.setString(2, customer.getCustomername());
@@ -47,32 +54,33 @@ public class MainController {
             pstmt.setString(4, customer.getLevel());
             pstmt.setString(5, customer.getJob());
             pstmt.setInt(6, customer.getReward());
-            int cnt = pstmt.executeUpdate();
-            System.out.println(cnt == 1 ? "✅ 고객 추가 완료" : "❌ 고객 추가 실패");
+
+            int result = pstmt.executeUpdate();
+            if (result == 1) {
+                System.out.println("고객 정보가 추가되었습니다.");
+            } else {
+                System.out.println("고객 정보 추가에 실패했습니다.");
+            }
         } catch (SQLException e) {
-            System.out.println("Statement or SQL Error: " + e.getMessage());
+            System.out.println("데이터베이스 처리 중 오류가 발생했습니다.");
         }
     }
 
     public static void updateCustomer(Connection con) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("수정할 고객아이디 입력: ");
+        System.out.print("수정할 고객 아이디 입력: ");
         String targetId = sc.nextLine().trim();
+
         if (!existsCustomer(con, targetId)) {
-            System.out.println("❌ 해당 고객아이디가 없습니다.");
+            System.out.println("해당 아이디의 고객이 존재하지 않습니다.");
             return;
         }
+
         InputCustomerInfoView inputView = new InputCustomerInfoView();
         Customer newInfo = inputView.inputCustomerInfoWithoutId();
-        String sql = """
-                update 고객
-                   set 고객이름 = ?,
-                       나이     = ?,
-                       등급     = ?,
-                       직업     = ?,
-                       적립금   = ?
-                 where 고객아이디 = ?
-                """;
+
+        String sql = "update 고객 set 고객이름=?, 나이=?, 등급=?, 직업=?, 적립금=? where 고객아이디=?";
+
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, newInfo.getCustomername());
             pstmt.setInt(2, newInfo.getAge());
@@ -80,24 +88,36 @@ public class MainController {
             pstmt.setString(4, newInfo.getJob());
             pstmt.setInt(5, newInfo.getReward());
             pstmt.setString(6, targetId);
-            int cnt = pstmt.executeUpdate();
-            System.out.println(cnt == 1 ? "✅ 고객 수정 완료" : "❌ 고객 수정 실패");
+
+            int result = pstmt.executeUpdate();
+            if (result == 1) {
+                System.out.println("고객 정보가 수정되었습니다.");
+            } else {
+                System.out.println("고객 정보 수정에 실패했습니다.");
+            }
         } catch (SQLException e) {
-            System.out.println("Statement or SQL Error: " + e.getMessage());
+            System.out.println("데이터베이스 처리 중 오류가 발생했습니다.");
         }
     }
 
     public static void deleteCustomer(Connection con) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("삭제할 고객아이디 입력: ");
+        System.out.print("삭제할 고객 아이디 입력: ");
         String targetId = sc.nextLine().trim();
+
         String sql = "delete from 고객 where 고객아이디 = ?";
+
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, targetId);
-            int cnt = pstmt.executeUpdate();
-            System.out.println(cnt == 1 ? "✅ 고객 삭제 완료" : "❌ 고객아이디가 없어서 삭제되지 않았습니다.");
+            int result = pstmt.executeUpdate();
+
+            if (result == 1) {
+                System.out.println("고객 정보가 삭제되었습니다.");
+            } else {
+                System.out.println("해당 아이디의 고객이 없습니다.");
+            }
         } catch (SQLException e) {
-            System.out.println("Statement or SQL Error: " + e.getMessage());
+            System.out.println("데이터베이스 처리 중 오류가 발생했습니다.");
         }
     }
 
