@@ -33,7 +33,7 @@ public class BookSearchView extends JPanel {
         panN.add(btnSearch);
     }
 
-//    JTable과 DefaultTableModel을 연결하고 테이블과 관련된 내용을 초기화
+    //    JTable과 DefaultTableModel을 연결하고 테이블과 관련된 내용을 초기화
     public void initView(){
         model = new DefaultTableModel(header,bookVOList.size()){
             @Override
@@ -62,7 +62,7 @@ public class BookSearchView extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-//    DefaultTableModel에 도서정보들을 설정한다.
+    //    DefaultTableModel에 도서정보들을 설정한다.
     public void pubSearchResult(){
 //        model에 행개수 설정
         model.setRowCount(bookVOList.size());
